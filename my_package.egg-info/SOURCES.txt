@@ -1,0 +1,15 @@
+README.md
+pyproject.toml
+demo/app.py
+miniml/__init__.py
+my_package.egg-info/PKG-INFO
+my_package.egg-info/SOURCES.txt
+my_package.egg-info/dependency_links.txt
+my_package.egg-info/requires.txt
+my_package.egg-info/top_level.txt
+tests/test_linear_regression.py
+tests/test_logistic_regression.py
+tests/test_metrics.py
+tests/test_ridge_regression.py
+tests/test_scaler.py
+tests/test_split.py
