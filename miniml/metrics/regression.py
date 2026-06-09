@@ -12,6 +12,16 @@ def MSE(y_true, y_predicted):
     return float(np.mean((y_true - y_predicted) ** 2))
 
 
+
+def MSE_gradient(X, y, y_pred):
+    error = y_pred - y
+    m_grad = (2 / len(y)) * X.T @ error      
+    b_grad = (2 / len(y)) * np.sum(error)    
+    return m_grad, b_grad
+
+
+
+
 def MAE(y_true, y_predicted):
     """mean absolute error regression loss function"""
 
