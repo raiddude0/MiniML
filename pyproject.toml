@@ -1,14 +1,31 @@
 [project]
-name = "my_package"
+name = "MiniML"
 version = "0.1.0"
-dependencies = ["numpy"]
-
+description = "A small NumPy machine learning library implemented from scratch."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+]
 [project.optional-dependencies]
-test = ["pytest"]
-
+dev = [
+    "pytest",
+    "pytest-cov",
+    "ruff",
+    "mypy",
+]
+examples = [
+    "matplotlib",
+    "scikit-learn",
+    "pandas",
+]
+demo = [
+    "gradio",
+    "matplotlib",
+    "scikit-learn",
+]
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
-
-[tool.setuptools]
-packages = ["demo", "miniml"]
+[tool.setuptools.packages.find]
+include = ["miniml*"]

@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
-from miniml.linear_model.linear_regression import LinearRegression
-from miniml.linear_model.ridge_regression import ridge_regression
+from miniml.linear_model.LinearRegression import LinearRegression
+from miniml.linear_model.RidgeRegression import ridge_regression
 
 def make_dataset():
     # y = 5*x1 + 0.1*x2 + noise

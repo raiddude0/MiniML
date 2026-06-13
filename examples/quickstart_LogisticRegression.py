@@ -1,5 +1,5 @@
 import numpy as np
-from miniml.linear_model.logistic_regression import logistic_regression
+from miniml.linear_model.LogisticRegression import logistic_regression
 from miniml.metrics.classification import accuracy
 
 # dataset (linearly separable)

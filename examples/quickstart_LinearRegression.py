@@ -1,12 +1,12 @@
 import numpy as np
-from miniml.linear_model.ridge_regression import ridge_regression
+from miniml.linear_model.LinearRegression import LinearRegression
 from miniml.metrics.regression import MSE, RMSE, R2_score, MAE
 
 # Sample dataset
 X = np.array([[1], [2], [3], [4], [5]])
 y = np.array([2, 3, 5, 7, 11])
-# Train ridge regression model
-model = ridge_regression(learning_rate=0.01, epochs=1000, alpha=1.0, verbose_every=100)
+# Train linear regression model
+model = LinearRegression(learning_rate=0.01, epochs=1000, verbose_every=100)
 model.fit(X, y)
 # Make predictions
 predictions = model.predict(X)

@@ -33,3 +33,15 @@ def check_X_y(X, y):
         raise ValueError("y contains NaN values")
 
     return X, y
+
+def check_learning_rate(learning_rate):
+    if not isinstance(learning_rate, (float, int)):
+        raise ValueError("learning_rate must be a float or int")
+    if learning_rate <= 0:
+        raise ValueError("learning_rate must be positive")
+    
+def check_epochs(epochs):
+    if not isinstance(epochs, int):
+        raise ValueError("epochs must be an integer")
+    if epochs <= 0:
+        raise ValueError("epochs must be positive")

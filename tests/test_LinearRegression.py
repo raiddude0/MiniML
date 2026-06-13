@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from miniml.linear_model.linear_regression import LinearRegression
+from miniml.linear_model.LinearRegression import LinearRegression
 
 def test_linear_regression_learns_simple_relation():
     
