@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
-from miniml.linear_model.LinearRegression import LinearRegression
-from miniml.linear_model.RidgeRegression import ridge_regression
+from miniml.linear_model.linear_regression import LinearRegression
+from miniml.linear_model.ridge_regression import RidgeRegression
 
 def make_dataset():
     # y = 5*x1 + 0.1*x2 + noise
@@ -18,7 +18,7 @@ def test_ridge_shrinks_coefficients():
     linreg.fit(X, y)
 
     # Ridge regression alpha(lambda) > 0
-    ridgereg = ridge_regression(learning_rate=0.05, epochs=500, alpha=10.0)
+    ridgereg = RidgeRegression(learning_rate=0.05, epochs=500, alpha=10.0)
     ridgereg.fit(X, y)
 
     # compare coef norms
