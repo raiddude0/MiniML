@@ -1,5 +1,5 @@
 import numpy as np
-from miniml.linear_model.RidgeRegression import ridge_regression
+from miniml.linear_model.ridge_regression import ridge_regression
 from miniml.metrics.regression import MSE, RMSE, R2_score, MAE
 
 # Sample dataset

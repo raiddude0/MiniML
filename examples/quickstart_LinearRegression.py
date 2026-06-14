@@ -1,5 +1,5 @@
 import numpy as np
-from miniml.linear_model.LinearRegression import LinearRegression
+from miniml.linear_model.linear_regression import LinearRegression
 from miniml.metrics.regression import MSE, RMSE, R2_score, MAE
 
 # Sample dataset
