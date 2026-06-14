@@ -1,12 +1,8 @@
 import numpy as np
 import pytest
-from miniml.linear_model import lasso_regression
+from miniml.linear_model.lasso_regression import LassoRegression
 
-LassoRegression = getattr(lasso_regression, "LassoRegression", None)
-pytestmark = pytest.mark.skipif(
-    LassoRegression is None,
-    reason="LassoRegression implementation is missing",
-)
+
 
 def test_lasso_shrinks_coefficients():
     # Dataset with a strong linear relationship

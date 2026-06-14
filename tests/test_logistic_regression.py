@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from miniml.linear_model.logistic_regression import logistic_regression as LogisticRegression
+from miniml.linear_model.logistic_regression import LogisticRegression
 from miniml.metrics.classification import accuracy
 
 def test_logistic_regression_accuracy_improves():
