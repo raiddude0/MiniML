@@ -2,7 +2,7 @@ import numpy as np
 from miniml.optim.gradient_descent import gradient_descent
 from miniml.metrics.regression import MSE, MSE_gradient
 
-class ridge_regression:
+class RidgeRegression:
     def __init__(self, learning_rate=0.01, epochs=1000, alpha=1.0, verbose_every = None):
         self.learning_rate = learning_rate
         self.epochs = epochs

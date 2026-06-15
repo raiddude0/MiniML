@@ -39,9 +39,11 @@ def check_learning_rate(learning_rate):
         raise ValueError("learning_rate must be a float or int")
     if learning_rate <= 0:
         raise ValueError("learning_rate must be positive")
+    return float(learning_rate)
     
 def check_epochs(epochs):
     if not isinstance(epochs, int):
         raise ValueError("epochs must be an integer")
     if epochs <= 0:
         raise ValueError("epochs must be positive")
+    return epochs

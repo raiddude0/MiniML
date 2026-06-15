@@ -62,4 +62,67 @@ def R2_score(y_true, y_predicted):
     return float(1 - ss_res / ss_tot)
 
 
+def lasso_loss(y_true, y_predicted, m, alpha):
+    """Lasso regression loss function"""
+
+    y_true = np.asarray(y_true)
+    y_predicted = np.asarray(y_predicted)
+    m = np.asarray(m)
+
+    if y_true.shape != y_predicted.shape:
+        raise ValueError("y_true and y_predicted must have the same shape")
     
+    mse_loss = MSE(y_true, y_predicted)
+    l1_penalty = alpha * np.sum(np.abs(m))
+
+    return float(mse_loss + l1_penalty)
+
+def lasso_gradient(y_true, y_predicted, X, m, alpha):
+    """Lasso regression gradient function"""
+
+    y_true = np.asarray(y_true)
+    y_predicted = np.asarray(y_predicted)
+    X = np.asarray(X)
+    m = np.asarray(m)
+
+    if y_true.shape != y_predicted.shape:
+        raise ValueError("y_true and y_predicted must have the same shape")
+    
+    error = y_predicted - y_true
+    m_grad = (2 / len(y_true)) * X.T @ error + alpha * np.sign(m)  
+    b_grad = (2 / len(y_true)) * np.sum(error)    
+    return m_grad, b_grad
+
+
+def elastic_net_loss(y_true, y_predicted, m, alpha, l1_ratio):
+    """elastic net loss function
+        if l1_ratio = 1 => lasso regression
+        if l1_ratio = 0 => ridge regression
+    """
+    y_true = np.asarray(y_true)
+    y_predicted = np.asarray(y_predicted)
+    m = np.asarray(m)
+    if y_true.shape != y_predicted.shape:
+        raise ValueError("y_true and y_predicted must have the same shape")
+    mse_loss = MSE(y_true, y_predicted)
+    l1_penalty = alpha * l1_ratio * np.sum(np.abs(m))
+    l2_penalty = alpha * (1 - l1_ratio) * np.sum(m ** 2)
+    penalty = l1_penalty + l2_penalty
+    return float(mse_loss + penalty)
+
+def elastic_net_gradient(y_true, y_predicted, X, m, alpha, l1_ratio):
+    """elastic net gradient function"""
+    y_true = np.asarray(y_true)
+    y_predicted = np.asarray(y_predicted)
+    X = np.asarray(X)
+    m = np.asarray(m)
+    if y_true.shape != y_predicted.shape:
+        raise ValueError("y_true and y_predicted must have the same shape")
+    error = y_predicted - y_true
+    MSE_grad = MSE_gradient(X, y_true, y_predicted)
+    l1_gradient = alpha * l1_ratio * np.sign(m)
+    l2_gradient = 2 * alpha * (1 - l1_ratio) * m
+    m_grad = MSE_grad[0] + l1_gradient + l2_gradient
+    b_grad = MSE_grad[1]
+    return m_grad, b_grad
+
