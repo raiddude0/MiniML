@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def sigmoid(z):
         return 1 / (1 + np.exp(-z))
 
@@ -36,4 +35,13 @@ def accuracy(y_true, y_predicted):
     return float(np.mean(y_true == y_predicted))
 
 
+def euclidean_distance(a,b):
+    """euclidean distance function for classification"""
 
+    a = np.asarray(a)
+    b = np.asarray(b)
+
+    if a.shape != b.shape:
+        raise ValueError("a and b must have the same shape")
+    
+    return float(np.sqrt(np.sum((a - b) ** 2)))

@@ -47,3 +47,27 @@ def check_epochs(epochs):
     if epochs <= 0:
         raise ValueError("epochs must be positive")
     return epochs
+
+
+def check_X_y_classification(X, y):
+    """validation function for classification models"""
+    X = np.asarray(X)
+    y = np.asarray(y)
+
+    
+    if X.shape[0] != y.shape[0]:
+        raise ValueError(f"X has {X.shape[0]} rows but y has {y.shape[0]} elements")
+
+    
+    if not np.issubdtype(X.dtype, np.number):
+        raise ValueError("X must be numeric")
+
+    
+    if np.isnan(X).any():
+        raise ValueError("X contains NaN values")
+
+    
+    if any(val is None for val in y):
+        raise ValueError("y contains None values")
+
+    return X, y
