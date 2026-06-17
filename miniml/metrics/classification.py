@@ -5,7 +5,7 @@ def sigmoid(z):
 
 
 def log_loss(X, y, m, b):
-    """loss function for logistic regression"""
+    """Binary cross-entropy loss function for logistic regression (BCE)"""
     epsilon = 1e-15
     z = X @ m + b
     g = sigmoid(z)
@@ -45,3 +45,88 @@ def euclidean_distance(a,b):
         raise ValueError("a and b must have the same shape")
     
     return float(np.sqrt(np.sum((a - b) ** 2)))
+
+
+def precision_score(y_true, y_predicted):
+        """precision score classification metric
+        precision = TP / (TP + FP)
+        where TP is true positives and FP is false positives
+        """
+    
+        y_true = np.asarray(y_true)
+        y_predicted = np.asarray(y_predicted)
+
+        if y_true.shape != y_predicted.shape:
+            raise ValueError("y_true and y_predicted must have the same shape")
+        
+        tp = np.sum((y_true == 1) & (y_predicted == 1))
+        fp = np.sum((y_true == 0) & (y_predicted == 1))
+        if tp + fp == 0:
+            return 0.0
+        return float(tp / (tp + fp))
+
+
+def recall_score(y_true, y_predicted):
+        """recall score classification metric
+        recall = TP/ (TP+FN)  """
+        y_true = np.asarray(y_true)
+        y_predicted = np.asarray(y_predicted)
+        if y_true.shape != y_predicted.shape:
+            raise ValueError("y_true and y_predicted must have the same shape")
+        
+        tp = np.sum((y_true == 1) & (y_predicted == 1))
+        fn = np.sum((y_true == 1) & (y_predicted == 0))
+        if tp+fn ==0:
+             return 0.0
+        return float(tp / (tp+fn )) 
+
+
+def f1_score(y_true, y_predicted):
+        """f1 score classification metric
+        f1 = 2 * ((precision * recall ) / (precision + recall))"""
+        y_true = np.asarray(y_true)
+        y_predicted = np.asarray(y_predicted)
+        if y_true.shape != y_predicted.shape:
+            raise ValueError("y_true and y_predicted must have the same shape")
+        
+        prec = precision_score(y_true, y_predicted)
+        rec = recall_score(y_true, y_predicted)
+
+        if prec + rec == 0:
+             return 0.0
+        return float(2 * (prec * rec) / (prec + rec))
+
+
+
+
+import matplotlib.pyplot as plt
+
+def confusion_matrix(y_true, y_pred):
+    #get unique labels
+    labels = np.unique(np.concatenate((y_true, y_pred)))
+    #set up confusion matrix with shape (n_classes, n_classes)
+    cm = np.zeros((len(labels), len(labels)), dtype=int)
+    # calc TP, TN, FP, FN
+    for t, p in zip(y_true, y_pred):
+        cm[np.where(labels == t)[0][0], np.where(labels == p)[0][0]] += 1
+    
+    # plot confusion matrix
+    plt.figure(figsize=(5, 5))
+    plt.imshow(cm, cmap="Blues")
+    plt.colorbar()
+    plt.xticks(np.arange(len(labels)), labels)
+    plt.yticks(np.arange(len(labels)), labels)
+    plt.xlabel("Predicted")
+    plt.ylabel("True")
+    plt.title("Confusion Matrix")
+
+    #text in each cell
+    for i in range(cm.shape[0]):
+        for j in range(cm.shape[1]):
+            plt.text(j, i, cm[i, j],
+                     ha="center", va="center",
+                     color="white" if cm[i, j] > cm.max()/2 else "black")
+    plt.show()
+
+
+
