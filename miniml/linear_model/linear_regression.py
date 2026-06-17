@@ -20,20 +20,16 @@ class LinearRegression:
         self.m = np.zeros(n_features)
         self.b = 0
 
-        for i in range(self.epochs):
-            y_predicted = X @ self.m + self.b
-            loss = MSE(y, y_predicted)
-            self.loss_history.append(loss)
-
-            m_gradient, b_gradient = MSE_gradient(X, y, y_predicted)
-            self.m -= self.learning_rate * m_gradient
-            self.b -= self.learning_rate * b_gradient
-
-            if self.verbose_every is not None and i % self.verbose_every == 0:
-                print(f"Epoch {i}, Loss: {loss:.4f}")
-
+        #we use gradient descent to get best parameters
+        optimizer = gradient_descent(learning_rate=self.learning_rate, epochs=self.epochs, verbose_every=self.verbose_every)
+        params = np.concatenate([self.m, [self.b]])
+        loss_f = lambda X, y, m, b: MSE(y, X @ m + b)
+        grad_f = lambda X, y, m, b: MSE_gradient(X, y, X @ m + b)
+        optimized_params = optimizer.fit(X, y, loss_f=loss_f, grad_f=grad_f, params=params)
+        self.m, self.b = optimized_params[:-1], optimized_params[-1]
+        self.loss_history = optimizer.loss_history
         return self
-    
+
     def predict(self, X):
         self._check_is_fitted()
         X = np.asarray(X)

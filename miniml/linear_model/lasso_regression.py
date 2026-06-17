@@ -2,6 +2,7 @@
 import numpy as np
 from miniml.metrics.regression import MSE, lasso_loss, lasso_gradient
 from miniml.core.validation import check_X_y, check_learning_rate, check_epochs
+from miniml.optim.gradient_descent import gradient_descent
 
 class LassoRegression:
     def __init__(self, learning_rate=0.01, epochs=1000, alpha=1.0, verbose_every=None):
@@ -30,21 +31,14 @@ class LassoRegression:
         self.b = 0
 
         
-        for epoch in range(self.epochs):
-            y_pred = self.m @ X.T + self.b
-            loss = lasso_loss(y, y_pred, self.m, self.alpha)
-            self.loss_history.append(loss)
-
-            
-            m_grad, b_grad = lasso_gradient(y, y_pred, X, self.m, self.alpha)
-
-            
-            self.m -= self.learning_rate * m_grad
-            self.b -= self.learning_rate * b_grad
-
-            
-            if self.verbose_every is not None and epoch % self.verbose_every == 0:
-                print(f"Epoch {epoch}, Loss: {loss}")
+        #we use gradient descent to get best parameters
+        optimizer = gradient_descent(learning_rate=self.learning_rate, epochs=self.epochs, verbose_every=self.verbose_every)
+        params = np.concatenate([self.m, [self.b]])
+        loss_f = lambda X, y, m, b: lasso_loss(y, X @ m + b, m, self.alpha)
+        grad_f = lambda X, y, m, b: lasso_gradient(y, X @ m + b, X, m, self.alpha)
+        optimized_params = optimizer.fit(X, y, loss_f=loss_f, grad_f=grad_f, params=params)
+        self.m, self.b = optimized_params[:-1], optimized_params[-1]
+        self.loss_history = optimizer.loss_history
 
         return self
 

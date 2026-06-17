@@ -22,9 +22,10 @@ class RidgeRegression:
         self.m = np.zeros(n_features)
         self.b = 0
 
+        #didn't use gradient descent class because i wanted to show the penalty for regularization:
         for i in range(self.epochs):
             y_predicted = X @ self.m + self.b
-            loss = MSE(y, y_predicted) + self.alpha * np.sum(self.m **2)
+            loss = MSE(y, y_predicted) + self.alpha * np.sum(self.m **2) #L2 penalty for ridge regression
             self.loss_history.append(loss)
             m_gradient, b_gradient = MSE_gradient(X, y, y_predicted)
 
@@ -36,6 +37,7 @@ class RidgeRegression:
                 print(f"Epoch {i}, Loss: {loss:.4f}")
 
         return self
+    
     
     
             

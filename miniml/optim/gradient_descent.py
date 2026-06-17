@@ -29,13 +29,19 @@ class gradient_descent:
         np.ndarray
             Optimized parameters
         """
-        self.params = params
+        self.params = np.asarray(params, dtype=float)
 
         for epoch in range(self.epochs):
-            loss = loss_f(X, y, self.params)
+            m = self.params[:-1]
+            b = self.params[-1]
+
+            loss = loss_f(X, y, m, b)
             self.loss_history.append(loss)
 
-            grad = grad_f(X, y, self.params)
+            grad = grad_f(X, y, m, b)
+            if isinstance(grad, tuple):
+                grad = np.concatenate([grad[0], [grad[1]]])
+
             self.params -= self.learning_rate * grad
 
             if self.verbose_every is not None and epoch % self.verbose_every == 0:
