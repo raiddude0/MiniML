@@ -45,7 +45,7 @@ def RMSE(y_true, y_predicted):
     return float(np.sqrt(np.mean((y_true - y_predicted) ** 2)))
 
 def R2_score(y_true, y_predicted):
-    """r2 score regression loss function"""
+    """r2 score regression metric function"""
 
     y_true = np.asarray(y_true)
     y_predicted = np.asarray(y_predicted)
@@ -60,6 +60,17 @@ def R2_score(y_true, y_predicted):
         return 0.0
     
     return float(1 - ss_res / ss_tot)
+
+def adjusted_R2_score(y_true, y_predicted, n_features):
+    """adjusted r2 score regression metric function"""
+    y_true = np.asarray(y_true)
+    y_predicted = np.asarray(y_predicted)
+    n_samples = len(y_true)
+
+    r2 = R2_score(y_true, y_predicted)
+    adjusted_r2 = 1 - (1 - r2) * (n_samples - 1) / (n_samples - n_features - 1)
+    return float(adjusted_r2)
+
 
 
 def lasso_loss(y_true, y_predicted, m, alpha):
