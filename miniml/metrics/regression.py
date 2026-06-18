@@ -63,6 +63,10 @@ def R2_score(y_true, y_predicted):
 
 def adjusted_R2_score(y_true, y_predicted, n_features):
     """adjusted r2 score regression metric function"""
+    #Standard R² always increases when you add a new variable to a regression model. 
+    #This creates an illusion of a better fit even if the added variable is useless
+    #that's why we use this formula instead that penalizes the addition of new features that
+    #don't improve the model significantly
     y_true = np.asarray(y_true)
     y_predicted = np.asarray(y_predicted)
     n_samples = len(y_true)
