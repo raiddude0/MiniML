@@ -127,9 +127,10 @@ def confusion_matrix(y_true, y_pred):
                      ha="center", va="center",
                      color="white" if cm[i, j] > cm.max()/2 else "black")
     plt.show()
+    return cm
 
 
-def ROC_AUC_score(y_true, y_scores):
+def roc_auc_score(y_true, y_scores):
     """ROC AUC score classification metric"""
     y_true = np.asarray(y_true)
     y_scores = np.asarray(y_scores)
@@ -147,6 +148,6 @@ def ROC_AUC_score(y_true, y_scores):
     fpr = np.cumsum(1 - y_true_sorted) / np.sum(1 - y_true)#same here
 
     #calc AUC (area under the ROC curve) using trapezoidal rule (integrate TPR with respect to FPR)
-    auc = np.trapz(tpr, fpr)
+    auc = np.trapezoid(tpr, fpr)
     return float(auc)#if auc >0.5 it's a good model else it's a bad or random model
 
