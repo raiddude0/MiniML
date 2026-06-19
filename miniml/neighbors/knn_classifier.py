@@ -1,9 +1,10 @@
 import numpy as np
+from miniml.core.base import BaseModel
 from miniml.metrics.classification import euclidean_distance
 from miniml.core.validation import check_X_y_classification
 from collections import defaultdict
 
-class KNNClassifier:
+class KNNClassifier(BaseModel):
     def __init__(self, n_neighbors=3):
         if n_neighbors < 1:
             raise ValueError("n_neighbors must be at least 1.")

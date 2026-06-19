@@ -1,9 +1,10 @@
 import numpy as np
+from miniml.core.base import BaseModel
 from miniml.core.validation import check_X_y, check_learning_rate, check_epochs
 from miniml.metrics.regression import elastic_net_loss, elastic_net_gradient
 from miniml.optim.gradient_descent import gradient_descent
 
-class ElasticNet:
+class ElasticNet(BaseModel):
     def __init__(self, learning_rate=0.01, epochs=1000, alpha=1.0, l1_ratio=0.5, verbose_every=None):
         learning_rate= check_learning_rate(learning_rate)
         epochs = check_epochs(epochs)

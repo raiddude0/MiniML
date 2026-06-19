@@ -1,8 +1,9 @@
 import numpy as np
+from miniml.core.base import BaseModel
 from miniml.optim.gradient_descent import gradient_descent
 from miniml.metrics.regression import MSE, MSE_gradient
 
-class RidgeRegression:
+class RidgeRegression(BaseModel):
     def __init__(self, learning_rate=0.01, epochs=1000, alpha=1.0, verbose_every = None):
         self.learning_rate = learning_rate
         self.epochs = epochs

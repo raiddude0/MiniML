@@ -1,10 +1,11 @@
 
 import numpy as np
+from miniml.core.base import BaseModel
 from miniml.metrics.regression import MSE, lasso_loss, lasso_gradient
 from miniml.core.validation import check_X_y, check_learning_rate, check_epochs
 from miniml.optim.gradient_descent import gradient_descent
 
-class LassoRegression:
+class LassoRegression(BaseModel):
     def __init__(self, learning_rate=0.01, epochs=1000, alpha=1.0, verbose_every=None):
         
         learning_rate = check_learning_rate(learning_rate)

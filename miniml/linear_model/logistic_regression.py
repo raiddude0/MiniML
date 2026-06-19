@@ -1,8 +1,9 @@
 import numpy as np
+from miniml.core.base import BaseModel
 from miniml.optim.gradient_descent import gradient_descent
 from miniml.metrics.classification import log_loss, log_loss_gradient
 
-class LogisticRegression:
+class LogisticRegression(BaseModel):
     def __init__(self, learning_rate=0.01, epochs=1000, verbose_every=None):
         self.learning_rate = learning_rate
         self.epochs = epochs
