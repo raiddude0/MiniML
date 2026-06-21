@@ -1,9 +1,7 @@
-
 import numpy as np
 from miniml.core.base import BaseModel
 from miniml.metrics.classification import euclidean_distance
 from miniml.core.validation import check_X_y
-from collections import defaultdict
 
 class KNNRegressor(BaseModel):
     def __init__(self, n_neighbors=3):
@@ -22,24 +20,25 @@ class KNNRegressor(BaseModel):
     def predict(self, X):
         self._check_is_fitted()
         X = np.asarray(X)
-        distances = []
-        
-       
-        for xi, yi in zip(self.X_train, self.y_train):
-            dist = euclidean_distance(X, xi)
-            distances.append((dist, yi))
-        
-        
-        k_nearest = sorted(distances, key=lambda x: x[0])[:self.n_neighbors]
-        
-        
-        # weighted average of neighbor values
-        weights = [1 / (dist + 1e-9) for dist, _ in k_nearest] #inverted distances as weights, higher weight = closer neighbor 
-        values = [val for _, val in k_nearest]
-        result = np.average(values, weights=weights)
-        return result
+        preds = []
+
+        for x in X:  #for each sample in the test set
+            distances = []
+            for xi, yi in zip(self.X_train, self.y_train):
+                dist = euclidean_distance(x, xi) 
+                distances.append((dist, yi))
+
+            
+            k_nearest = sorted(distances, key=lambda d: d[0])[:self.n_neighbors]
+
+            
+            weights = [1 / (dist + 1e-9) for dist, _ in k_nearest]
+            values = [val for _, val in k_nearest]
+            pred = np.average(values, weights=weights)
+            preds.append(pred)
+
+        return np.array(preds)
 
     def _check_is_fitted(self):
         if not hasattr(self, 'X_train') or not hasattr(self, 'y_train'):
             raise ValueError("This model is not fitted yet. Call fit() before predict().")
-        
