@@ -19,6 +19,7 @@ def plot_loss_curves(model, X_train, y_train, X_val, y_val, epochs=100):
     plt.plot(range(epochs), val_losses, label='Validation Loss')
     plt.xlabel('Epochs')
     plt.ylabel('Loss')
+    
 
 
 plot_loss_curves(model=LinearRegression(),
