@@ -20,6 +20,8 @@ class KNNRegressor(BaseModel):
     def predict(self, X):
         self._check_is_fitted()
         X = np.asarray(X)
+        single_sample = X.ndim == 1
+        X = np.atleast_2d(X)
         preds = []
 
         for x in X:  #for each sample in the test set
@@ -37,7 +39,10 @@ class KNNRegressor(BaseModel):
             pred = np.average(values, weights=weights)
             preds.append(pred)
 
-        return np.array(preds)
+        preds = np.array(preds)
+        if single_sample:
+            return preds[0]
+        return preds
 
     def _check_is_fitted(self):
         if not hasattr(self, 'X_train') or not hasattr(self, 'y_train'):

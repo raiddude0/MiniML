@@ -1,34 +1,32 @@
-import numpy as np
+from pathlib import Path
+
 import matplotlib.pyplot as plt
+import numpy as np
+
 from miniml.linear_model import LinearRegression
 
-def plot_loss_curves(model, X_train, y_train, X_val, y_val, epochs=100):
-    train_losses = []
-    val_losses = []
 
-    for epoch in range(epochs):
-        model.fit(X_train, y_train)
-        train_loss = model.loss(X_train, y_train)
-        val_loss = model.loss(X_val, y_val)
+def main():
+    rng = np.random.default_rng(42)
+    X = rng.normal(size=(120, 1))
+    y = 4 * X[:, 0] + 2 + rng.normal(scale=0.4, size=120)
 
-        train_losses.append(train_loss)
-        val_losses.append(val_loss)
+    model = LinearRegression(learning_rate=0.05, epochs=200)
+    model.fit(X, y)
 
-    plt.figure(figsize=(10, 6))
-    plt.plot(range(epochs), train_losses, label='Training Loss')
-    plt.plot(range(epochs), val_losses, label='Validation Loss')
-    plt.xlabel('Epochs')
-    plt.ylabel('Loss')
-    
+    plt.figure(figsize=(8, 5))
+    plt.plot(model.loss_history)
+    plt.title("Linear Regression Loss Curve")
+    plt.xlabel("Epoch")
+    plt.ylabel("MSE loss")
+    plt.grid(alpha=0.3)
+
+    output_dir = Path("assets")
+    output_dir.mkdir(exist_ok=True)
+    output_path = output_dir / "loss_curve.png"
+    plt.savefig(output_path, dpi=150, bbox_inches="tight")
+    print(f"Saved figure to {output_path}")
 
 
-plot_loss_curves(model=LinearRegression(),
-                    X_train=np.random.rand(100, 1),
-                    y_train=np.random.rand(100, 1),
-                    X_val=np.random.rand(20, 1),
-                    y_val=np.random.rand(20, 1),
-                    epochs=50)
-plt.legend()
-plt.title('Loss Curves')
-plt.show()
-
+if __name__ == "__main__":
+    main()
