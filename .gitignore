@@ -1,5 +1,10 @@
+.venv/
+.pytest_cache/
 __pycache__/
-*.pyc
+*.py[cod]
 *.egg-info/
-*.py text eol=lf
-
+.vscode/
+dist/
+build/
+.coverage
+htmlcov/
